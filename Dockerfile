@@ -7,6 +7,14 @@ RUN git clone https://github.com/onnx/onnx.git
 WORKDIR onnx
 RUN git checkout v1.3.0 
 RUN git submodule update --init --recursive
-RUN python3 setup.py install
+RUN sed -i "s/ONNX_NAMESPACE \"onnx\"/ONNX_NAMESPACE \"ONNX_NAMESPACE\"/g" ./CMakeLists.txt
+
+WORKDIR /onnx/build
+RUN cmake ..
+RUN make
+COPY test_onnx.cpp ./
+COPY mnist.onnx ./
+RUN g++ -o test_onnx test_onnx.cpp -lonnx_proto -lprotobuf -lonnx -I/onnx -I/onnx/build -L./ -std=c++11
 
 CMD /bin/bash
+#CMD ./test_onnx
