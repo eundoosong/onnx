@@ -47,7 +47,7 @@ if(NOT MSVC)
 endif()
 
 if(NOT ONNX_NAMESPACE)
-  set(ONNX_NAMESPACE "onnx")
+  set(ONNX_NAMESPACE "ONNX_NAMESPACE")
 endif()
 
 if(ONNX_BUILD_TESTS)
